@@ -4,8 +4,10 @@ const result = document.getElementById('result');
 const demoFillBtn = document.getElementById('demo-fill');
 const resetFormBtn = document.getElementById('reset-form');
 const copyAllBtn = document.getElementById('copy-all');
+const downloadZipBtn = document.getElementById('download-zip');
 
 let latestContent = '';
+let latestData = null;
 
 function createLines(input) {
   const { productName, coreFeature, targetUser, productType, useCase } = input;
@@ -97,6 +99,7 @@ form.addEventListener('submit', (e) => {
   const input = Object.fromEntries(new FormData(form).entries());
   const data = createLines(input);
   latestContent = stringifyResult(data);
+  latestData = data;
 
   result.innerHTML = '';
   result.appendChild(renderBlock('1) 一句话高张力卖点（5条）', data.oneLiners));
@@ -122,6 +125,7 @@ resetFormBtn.addEventListener('click', () => {
   outputPanel.hidden = true;
   result.innerHTML = '';
   latestContent = '';
+  latestData = null;
 });
 
 copyAllBtn.addEventListener('click', async () => {
@@ -131,4 +135,41 @@ copyAllBtn.addEventListener('click', async () => {
   }
   await navigator.clipboard.writeText(latestContent);
   showToast('已复制全部文案');
+});
+
+
+async function downloadZip() {
+  if (!latestData) {
+    showToast('请先生成文案');
+    return;
+  }
+  if (!window.JSZip) {
+    showToast('ZIP组件加载失败，请刷新后重试');
+    return;
+  }
+
+  const zip = new window.JSZip();
+  const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+  zip.file('01-一句话高张力卖点.txt', latestData.oneLiners.join('\n'));
+  zip.file('02-抖音3秒钩子.txt', latestData.hooks.join('\n'));
+  zip.file('03-短视频口播文案.txt', latestData.script);
+  zip.file('04-小红书风格文案.txt', latestData.xhs);
+  zip.file('05-用户欲望拆解.txt', latestData.desire.join('\n'));
+  zip.file('all-in-one.txt', latestContent);
+
+  const blob = await zip.generateAsync({ type: 'blob' });
+  const a = document.createElement('a');
+  const safeName = (form.elements.productName.value || 'sexycopy').trim().replace(/[\\/:*?"<>|]/g, '_');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `${safeName}-copy-${stamp}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast('ZIP 已下载');
+}
+
+downloadZipBtn.addEventListener('click', () => {
+  downloadZip().catch(() => showToast('ZIP 下载失败，请重试'));
 });

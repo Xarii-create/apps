@@ -45,12 +45,16 @@
       <section class="panel output-panel" id="output-panel" hidden>
         <div class="panel-head">
           <h2>生成结果</h2>
-          <button id="copy-all" type="button" class="btn-ghost">复制全部</button>
+          <div class="actions">
+            <button id="copy-all" type="button" class="btn-ghost">复制全部</button>
+            <button id="download-zip" type="button" class="btn-ghost">下载ZIP</button>
+          </div>
         </div>
         <div id="result"></div>
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
