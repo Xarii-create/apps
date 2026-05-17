@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SexyCopy Skills · 电商高张力文案生成器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="grid-overlay"></div>
+
+    <main class="app-shell">
+      <header class="hero">
+        <p class="kicker">SexyCopy Skills</p>
+        <h1>AI 高张力产品文案生成器</h1>
+        <p class="subtitle">面向电商运营的高级文案工作台：抖音钩子、口播脚本、小红书分享一键生成。</p>
+      </header>
+
+      <section class="panel input-panel">
+        <div class="panel-head">
+          <h2>输入产品信息</h2>
+          <button id="demo-fill" type="button" class="btn-ghost">填充示例</button>
+        </div>
+
+        <form id="copy-form">
+          <div class="field-grid">
+            <label>产品名<input name="productName" required placeholder="例如：AI商业摄影" /></label>
+            <label>产品类型<input name="productType" required placeholder="例如：AI SaaS" /></label>
+            <label>目标用户<input name="targetUser" required placeholder="例如：电商卖家" /></label>
+            <label>使用场景<input name="useCase" required placeholder="例如：淘宝 / 抖音 / 小红书" /></label>
+            <label class="full">核心功能<textarea name="coreFeature" required rows="3" placeholder="例如：上传商品图自动生成商业级大片"></textarea></label>
+          </div>
+          <div class="actions">
+            <button class="btn-primary" type="submit">生成高张力文案</button>
+            <button id="reset-form" class="btn-ghost" type="button">清空输入</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel output-panel" id="output-panel" hidden>
+        <div class="panel-head">
+          <h2>生成结果</h2>
+          <button id="copy-all" type="button" class="btn-ghost">复制全部</button>
+        </div>
+        <div id="result"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
